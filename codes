@@ -1,0 +1,45 @@
+                    //ARDUINO HOCAM TEMPERATURE CONTROLLED FAN
+float Temperature; 
+float value; 
+int lm35pin=A0;  
+int motor=3;
+
+
+void setup () {
+  Serial.begin(9600); 
+  pinMode(motor,OUTPUT);
+}
+
+void loop () {
+ value = analogRead(lm35pin); //read analog values from A0
+ value = (value/1023)*5000; //converting analog value into mV
+ Temperature = value/10;  // converting mV to Celcius
+
+ Serial.print("Sicaklik : "); //TEMPERATURE
+ Serial.print (Temperature);
+ Serial.println (" ^C");
+ if (Temperature>=24 && Temperature<=26)
+ {
+  analogWrite(motor,50);
+ }
+
+  if (Temperature>26 && Temperature<=29)
+ {
+  analogWrite(motor,90);
+ }
+  else if (Temperature>29 && Temperature<=32)
+ {
+  analogWrite(motor,150);
+ }
+ else if (Temperature>32 )
+ {
+  
+   
+   analogWrite(motor,255);
+ }
+ else  
+ {
+  analogWrite(motor,0);
+ }
+delay(1500);
+}
